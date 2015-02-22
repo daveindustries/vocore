@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>VoCore | GPIO Control</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-switch.min.css">
+  </head>
+
+  <body>
+    <h4>GPIO 0</h4>
+    <input name="gpio0-switch" type="checkbox" />
+
+    <hr>
+    <p><div id="gpio0-result">Click on switch to change GPIO 0</div><p>
+
+    <input type="button" class="btn btn-primary" value="View Source" onclick="location.href='voweb.c'"></input>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-switch.min.js"></script>
+    <script>
+        $("[name='gpio0-switch']").bootstrapSwitch();
+        $("[name='gpio0-switch']").on('switchChange.bootstrapSwitch', function(event, state) {
+            if(state) {
+                html_data=$.ajax({url:"/cgi-bin/gpio0ctrl?on", async:false});
+                $("#gpio0-result").html(html_data.responseText);
+            } else {
+                html_data=$.ajax({url:"/cgi-bin/gpio0ctrl?off", async:false});
+                $("#gpio0-result").html(html_data.responseText);
+            }
+        });
+    </script>
+  </body>
+</html>
